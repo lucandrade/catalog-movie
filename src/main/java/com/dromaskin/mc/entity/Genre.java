@@ -1,13 +1,17 @@
 package com.dromaskin.mc.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Genre extends Timestamps {
+@Table(name="genres")
+public class Genre {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -18,6 +22,28 @@ public class Genre extends Timestamps {
 	private String slug;
 	
 	private boolean active = true;
+	
+	@Column(name="created_at")
+	private Date createdAt;
+	
+	@Column(name="updated_at")
+	private Date updatedAt;
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
 	public long getId() {
 		return id;

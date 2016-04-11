@@ -15,7 +15,14 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<jdbc:embedded-database type="HSQL" id="dataSource" />
+	<!-- <jdbc:embedded-database type="HSQL" id="dataSource" /> -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://192.168.99.100:5432/docker"/>
+        <property name="username" value="docker"/>
+        <property name="password" value="docker"/>
+    </bean>
 	
 	<bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
 		id="emf">
