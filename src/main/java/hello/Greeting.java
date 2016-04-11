@@ -1,20 +1,32 @@
 package hello;
 
-public class Greeting {
+import java.io.Serializable;
 
-	private final long id;
-	private final String content;
+public class Greeting implements Serializable {
+
+	private static final long serialVersionUID = -7788619177798333712L;
+	
+	private long id;
+	private String content;
 	
 	public Greeting(long id, String content) {
 		this.id = id;
 		this.content = content;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
-	
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String getContent() {
 		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

@@ -2,18 +2,25 @@ package hello;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@RestController
+@Controller
+@EnableWebMvc
 public class GreetingController {
 
 	public static final String template = "Hello, %s";
 	private final AtomicLong counter = new AtomicLong();
 	
-	@RequestMapping("/greting")
-	public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+	@RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = "application/json")
+	@ResponseStatus(value = HttpStatus.ACCEPTED)
+	public @ResponseBody Greeting greeting(@RequestParam(value="myname", defaultValue="World") String name) {
 		return new Greeting(counter.incrementAndGet(), name);
 	}
 }
