@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,13 @@ public class SearchController {
 	public @ResponseBody Response index(@RequestParam(name="query", defaultValue="Runner") String query) {
 		List<MovieSearch> movies = restService.searchMovie(query);
 		response.setData(movies);
+		return response;
+	}
+	
+	@RequestMapping(value = "/movie/{id}", method = RequestMethod.GET)
+	public @ResponseBody Response movie(@PathVariable("id") int movieId) {
+		MovieSearch movie = restService.searchMovie(movieId);
+		response.setData(movie);
 		return response;
 	}
 }

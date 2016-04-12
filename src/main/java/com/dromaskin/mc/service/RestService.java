@@ -56,6 +56,16 @@ public class RestService {
 		return rest.getForObject(url, GenreSearchList.class).getGenres();
 	}
 	
+	public MovieSearch searchMovie(int movieId) {
+		System.out.println("outro");
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(restConfiguration.getUrl() + "movie/" + movieId)
+				.queryParam("api_key", restConfiguration.getApiKey());
+		String url = uriBuilder.build().encode().toString();
+		MovieSearch movie = rest.getForObject(url, MovieSearch.class);
+		loadMovie(movie);
+		return movie;
+	}
+	
 	public List<MovieSearch> searchMovie(String searchString) {
 		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(restConfiguration.getUrl() + "search/movie")
 				.queryParam("api_key", restConfiguration.getApiKey())

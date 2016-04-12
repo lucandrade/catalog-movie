@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"poster"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"poster", "posterUrl"})
 public class MovieSearch implements Serializable {
 
 	private int id;
@@ -23,8 +23,10 @@ public class MovieSearch implements Serializable {
 	
 	private Date release_date;
 	
-	private List<GenreSearch> genre_ids;
+	private List<GenreSearch> genres;
 	
+	private List<GenreSearch> genre_ids;
+
 	private MoviePoster poster;
 	
 	private String posterUrl;
@@ -44,6 +46,14 @@ public class MovieSearch implements Serializable {
 	public void setPoster(MoviePoster poster) {
 		this.poster = poster;
 	}
+	
+	public void setGenre_ids(List<GenreSearch> genres) {
+		genre_ids = genres;
+	}
+	
+	public List<GenreSearch> getGenres() {
+		return genres == null ? genre_ids : genres;
+	}
 
 	public void setId(int id) {
 		this.id = id;
@@ -51,14 +61,6 @@ public class MovieSearch implements Serializable {
 	
 	public int getId() {
 		return id;
-	}
-	
-	public void setGenre_ids(List<GenreSearch> genres) {
-		genre_ids = genres;
-	}
-	
-	public List<GenreSearch> getGenres() {
-		return genre_ids;
 	}
 
 	public String getOverview() {
