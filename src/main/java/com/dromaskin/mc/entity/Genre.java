@@ -1,5 +1,7 @@
 package com.dromaskin.mc.entity;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,15 +10,30 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Size;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.slugify.Slugify;
 
 @Entity
 @Table(name="genres")
-public class Genre {
+@Component
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"id"})
+public class Genre implements Serializable {
+	
+	@Transient
+	@Autowired
+	private Slugify slugify;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
+	@Size(min=3, message="Preencha o nome")
 	private String name;
 	
 	private String slug;

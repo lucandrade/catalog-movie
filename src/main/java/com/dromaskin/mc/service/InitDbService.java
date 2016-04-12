@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dromaskin.mc.entity.Genre;
 
-import java.util.Date;
-
 import javax.annotation.PostConstruct;
 
 @Transactional
@@ -21,7 +19,6 @@ public class InitDbService {
 	public void init() {
 		Genre genre = new Genre();
 		genre.setName("Comédia");
-		genre.setSlug("comedia");
 		genreService.save(genre);
 	}
 }
