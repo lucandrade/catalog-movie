@@ -16,6 +16,7 @@ public class IndexController {
 	
 	@RequestMapping("/session")
 	public String session(HttpServletRequest request, @RequestParam(value="name", defaultValue="") String name) {
+		System.out.println("sessao com usuario " + name);
 		if (!name.isEmpty()) {
 			request.getSession().setAttribute("user", name);
 		}

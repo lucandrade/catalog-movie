@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("file:moviedb.properties")
+@PropertySource("classpath:/moviedb.properties")
 public class RestConfiguration {
 
 	@Value("${mdb.url}")

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dromaskin.mc.entity.Genre;
+import com.dromaskin.mc.tmdbentity.GenreSearch;
+import com.dromaskin.mc.tmdbentity.MovieSearch;
 
 import java.util.List;
 
@@ -22,12 +24,16 @@ public class InitDbService {
 	
 	@PostConstruct
 	public void init() {
-		List<Genre> genres = restService.genres();
+		restService.init();
+		List<GenreSearch> genres = restService.genres();
 		saveGenres(genres);
 	}
 	
-	private void saveGenres(List<Genre> genres) {
-		for (Genre genre : genres) {
+	private void saveGenres(List<GenreSearch> genresSearch) {
+		for (GenreSearch genreSearch : genresSearch) {
+			Genre genre = new Genre();
+			genre.setName(genreSearch.getName());
+			genre.setTmdbId(genreSearch.getId());
 			genreService.save(genre);
 		}
 	}

@@ -2,17 +2,24 @@ package com.dromaskin.mc.entity;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,17 +29,16 @@ import com.github.slugify.Slugify;
 @Entity
 @Table(name="genres")
 @Component
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"id"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"id", "movies"})
 public class Genre implements Serializable {
-	
-	@Transient
-	@Autowired
-	private Slugify slugify;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private int id;
 	
+	@Column(name="tmdb_id")
+	private int tmdbId;
+
 	@Size(min=3, message="Preencha o nome")
 	private String name;
 	
@@ -46,6 +52,29 @@ public class Genre implements Serializable {
 	@Column(name="updated_at")
 	private Date updatedAt;
 	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+            name = "genres_movies",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+	private List<Movie> movies = new ArrayList<Movie>();
+	
+	public long getTmdbId() {
+		return tmdbId;
+	}
+
+	public void setTmdbId(int tmdbId) {
+		this.tmdbId = tmdbId;
+	}
+	
+	public List<Movie> getMovies() {
+		return movies;
+	}
+
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -66,7 +95,7 @@ public class Genre implements Serializable {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

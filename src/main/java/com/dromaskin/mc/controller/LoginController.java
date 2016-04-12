@@ -32,6 +32,7 @@ public class LoginController {
 			request.getSession().setAttribute("user", userName);
 			response.setData(user);
 			response.setErrorCode(0);
+			response.setStatus(true);
 		} else {
 			response.setStatus(false);
 			response.setErrorCode(Response.AUTHERROR);

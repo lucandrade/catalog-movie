@@ -7,4 +7,6 @@ import com.dromaskin.mc.entity.Genre;
 public interface GenreRepository extends JpaRepository<Genre, Integer> {
 
 	public Genre findByName(String name);
+	
+	public Genre findByTmdbId(int tmdbId);
 }

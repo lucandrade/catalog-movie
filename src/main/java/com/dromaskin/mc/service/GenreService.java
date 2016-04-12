@@ -22,11 +22,16 @@ public class GenreService {
 	@Autowired
 	private GenreRepository genreRepository;
 	
+	public Genre findByTmdbId(int tmdbId) {
+		return genreRepository.findByTmdbId(tmdbId);
+	}
+	
 	public Genre findByName(String name) {
 		return genreRepository.findByName(name);
 	}
 	
 	public Genre save(Genre genre) {
+		System.out.println("salvar genero: " + genre.getId());
 		Genre savedGenre = findByName(genre.getName());
 		if (savedGenre == null) {
 			if (genre.getCreatedAt() == null) {
