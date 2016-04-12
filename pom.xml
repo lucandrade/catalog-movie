@@ -8,10 +8,11 @@
 	
 	<properties>
 	    <org.springframework.version>4.2.5.RELEASE</org.springframework.version>
+	    <org.springsecurity.version>4.0.4.RELEASE</org.springsecurity.version>
 	</properties>
 	
 	<dependencies>
-		
+	
 		<!-- Slugify -->
 		<dependency>
 			<groupId>com.github.slugify</groupId>

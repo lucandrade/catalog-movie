@@ -35,12 +35,14 @@ public class GenreService {
 			if (genre.getUpdatedAt() == null) {
 				genre.setUpdatedAt(new Date());
 			}
-			genre.setSlug(slugify.slugify(genre.getName()));
-			genreRepository.save(genre);
+		} else if (genre.getName().equals(savedGenre.getName())) {
 			return genre;
 		} else {
-			return savedGenre;
+			genre = savedGenre;
 		}
+		genre.setSlug(slugify.slugify(genre.getName()));
+		genreRepository.save(genre);
+		return genre;
 	}
 	
 	public List<Genre> all() {

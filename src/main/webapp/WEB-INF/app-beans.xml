@@ -5,4 +5,6 @@
 
 	<bean class="com.github.slugify.Slugify" id="slugify" />
 	<bean class="org.springframework.web.client.RestTemplate" id="resttemplate" />
+	<bean class="com.dromaskin.mc.rest.Response" id="response" name="response" />
+	<bean name="checkUser" class="com.dromaskin.mc.filter.CheckUserFilter" />
 </beans>
