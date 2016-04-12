@@ -38,7 +38,7 @@ public class CheckUserFilter extends OncePerRequestFilter {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		this.response = new Response();
-		this.response.setErrorCode(401);
+		this.response.setErrorCode(Response.AUTHERROR);
 		this.response.setStatus(false);
 		
 		out.write(mapper.writeValueAsString(this.response).getBytes());

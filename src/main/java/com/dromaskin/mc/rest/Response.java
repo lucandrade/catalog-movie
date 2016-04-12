@@ -3,10 +3,12 @@ package com.dromaskin.mc.rest;
 import java.io.Serializable;
 
 public class Response implements Serializable {
+	
+	public static final int AUTHERROR = 401;
 
 	private boolean status = true;
 	
-	private int errorCode;
+	private int errorCode = 0;
 
 	private String message;
 	

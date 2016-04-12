@@ -2,19 +2,28 @@ package com.dromaskin.mc.service;
 
 import java.util.Date;
 
-import com.dromaskin.mc.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.dromaskin.mc.entity.User;
+import com.dromaskin.mc.repository.UserRepository;
+
+@Service
 public class UserService {
 	
-	private UserService userService;
+	@Autowired
+	private UserRepository userRepository;
 	
 	public User findByName(String name) {
-		return userService.findByName(name);
+		return userRepository.findByUserName(name);
 	}
 
-	public User save(User user) {
-		User savedUser = findByName(user.getUserName());
+	public User save(String userName) {
+		User user;
+		User savedUser = findByName(userName);
 		if (savedUser == null) {
+			user = new User();
+			user.setUserName(userName);
 			if (user.getCreatedAt() == null) {
 				user.setCreatedAt(new Date());
 			}
@@ -24,7 +33,7 @@ public class UserService {
 		} else {
 			user = savedUser;
 		}
-		userService.save(user);
+		userRepository.save(user);
 		return user;
 	}
 }
