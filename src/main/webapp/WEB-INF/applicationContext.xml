@@ -6,14 +6,18 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
-		
-	<context:property-placeholder location="classpath:database.properties" />
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+	
+	<context:property-placeholder location="classpath*:dev/*.properties" />
+	
+	<import resource="app-beans.xml"/>
 
 	<context:component-scan base-package="com.dromaskin.mc">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -23,7 +27,7 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://${db.host}:${db.port}/${db.schema}?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"/>
+        <property name="url" value="jdbc:postgresql://${db.host}:${db.port}/${db.schema}${db.properties}"/>
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
     </bean>
@@ -48,8 +52,6 @@
 	<bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
-	<bean class="com.github.slugify.Slugify" id="slugify" />
 	
 	<jpa:repositories base-package="com.dromaskin.mc.repository" entity-manager-factory-ref="emf" />
 </beans>

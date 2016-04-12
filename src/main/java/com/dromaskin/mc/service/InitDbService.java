@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dromaskin.mc.entity.Genre;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 @Transactional
@@ -15,10 +17,18 @@ public class InitDbService {
 	@Autowired
 	private GenreService genreService;
 	
+	@Autowired
+	private RestService restService;
+	
 	@PostConstruct
 	public void init() {
-		Genre genre = new Genre();
-		genre.setName("Comédia");
-		genreService.save(genre);
+		List<Genre> genres = restService.genres();
+		saveGenres(genres);
+	}
+	
+	private void saveGenres(List<Genre> genres) {
+		for (Genre genre : genres) {
+			genreService.save(genre);
+		}
 	}
 }
