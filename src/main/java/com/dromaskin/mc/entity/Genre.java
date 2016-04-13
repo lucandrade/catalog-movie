@@ -29,7 +29,7 @@ import com.github.slugify.Slugify;
 @Entity
 @Table(name="genres")
 @Component
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"id", "movies"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"id", "movies", "tmdbId", "createdAt", "updatedAt"})
 public class Genre implements Serializable {
 	
 	@Id

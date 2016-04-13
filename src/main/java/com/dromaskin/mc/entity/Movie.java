@@ -1,15 +1,24 @@
 package com.dromaskin.mc.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Movie implements Serializable {
@@ -21,21 +30,26 @@ public class Movie implements Serializable {
 	@Column(name="tmdb_id")
 	private int tmdbId;
 	
-	@Size(min=3, message="O título do filme deve ter no mínimo 3 caracteres")
+	@Size(min=3, message="Title must be at leats 3 character")
+	@NotNull(message="Title date is required")
 	private String title;
 	
 	private String slug;
 	
 	@Column(name="released_date")
+	@NotNull(message="Released date is required")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date releasedDate;
 	
 	private int runtime;
 	
-	@Size(min=3, message="O diretor do filme deve ter no mínimo 3 caracteres")
+	@Size(min=3, message="Director must be at leats 3 character")
+	@NotNull(message="Director date is required")
 	private String director;
 	
 	@Lob
 	@Column(length=Integer.MAX_VALUE)
+	@NotNull(message="Overview is required")
 	private String overview;
 	
 	private String poster;
@@ -51,6 +65,21 @@ public class Movie implements Serializable {
 	
 	@Column(name="updated_at")
 	private Date updatedAt;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+            name = "genres_movies",
+            joinColumns = @JoinColumn(name = "genre_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+	private List<Genre> genres = new ArrayList<Genre>();
+
+	public List<Genre> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
+	}
 
 	public long getTmdbId() {
 		return tmdbId;

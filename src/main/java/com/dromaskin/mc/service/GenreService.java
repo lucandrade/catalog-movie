@@ -31,7 +31,6 @@ public class GenreService {
 	}
 	
 	public Genre save(Genre genre) {
-		System.out.println("salvar genero: " + genre.getId());
 		Genre savedGenre = findByName(genre.getName());
 		if (savedGenre == null) {
 			if (genre.getCreatedAt() == null) {
