@@ -59,9 +59,11 @@ public class MovieController {
 			response.setData(errors);
 			response.setStatus(false);
 		} else {
-//			movieService.save(movie);
-//			movieService.bindGenres(request.getParameterValues("genres_id"), movie);
-//			response.setStatus(true);
+			movieService.save(movie);
+			if (request.getParameterValues("genres_id") != null) {
+				movieService.bindGenres(request.getParameterValues("genres_id"), movie);
+			}
+			response.setStatus(true);
 			response.setData(movie);
 		}
 		return response;

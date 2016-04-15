@@ -1,6 +1,8 @@
 package com.dromaskin.mc.entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -66,7 +69,7 @@ public class Movie implements Serializable {
 	@Column(name="updated_at")
 	private Date updatedAt;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
             name = "genres_movies",
             joinColumns = @JoinColumn(name = "genre_id"),
@@ -119,6 +122,16 @@ public class Movie implements Serializable {
 
 	public void setReleasedDate(Date releasedDate) {
 		this.releasedDate = releasedDate;
+	}
+	
+	public void setReleasedDate(String releasedDate) {
+		if (releasedDate != null && !releasedDate.isEmpty()) {
+			try {
+				this.releasedDate = new SimpleDateFormat("yyyy-MM-dd").parse(releasedDate);
+			} catch (ParseException e) {
+				
+			}
+		}
 	}
 
 	public int getRuntime() {

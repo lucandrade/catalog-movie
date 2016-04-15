@@ -27,18 +27,14 @@ public class MovieService {
 	private GenreRepository genreRepository;
 	
 	public List<Movie> all() {
-		return movieRepository.findAll();
+		List<Movie> all = movieRepository.findAll();
+		return all;
 	}
 	
 	@Transactional
 	public Movie save(Movie movie) {
-		Movie savedMovie = movieRepository.findByTitle(movie.getTitle());
 		movie.setUpdatedAt(new Date());
-		if (savedMovie != null) {
-			movie.setId(savedMovie.getId());
-		} else {
-			movie.setCreatedAt(new Date());
-		}
+		movie.setCreatedAt(new Date());
 		movie.setSlug(slugify.slugify(movie.getTitle()));
 		movieRepository.save(movie);
 		return movie;
@@ -48,7 +44,8 @@ public class MovieService {
 	public void bindGenres(String[] genreIds, Movie movie) {
 		List<Genre> genres = new ArrayList<Genre>();
 		for (String genreId : genreIds) {
-			Genre genre = genreRepository.findOne(Integer.parseInt(genreId));
+			Genre genre = genreRepository.findByTmdbId(Integer.parseInt(genreId));
+			
 			if (genre != null) {
 				genres.add(genre);
 			}
