@@ -31,20 +31,20 @@ public class Movie implements Serializable {
 	private int tmdbId;
 	
 	@Size(min=3, message="Title must be at leats 3 character")
-	@NotNull(message="Title date is required")
+	@NotNull(message="Title field is required")
 	private String title;
 	
 	private String slug;
 	
 	@Column(name="released_date")
-	@NotNull(message="Released date is required")
+	@NotNull(message="Released field is required")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date releasedDate;
 	
 	private int runtime;
 	
 	@Size(min=3, message="Director must be at leats 3 character")
-	@NotNull(message="Director date is required")
+	@NotNull(message="Director field is required")
 	private String director;
 	
 	@Lob

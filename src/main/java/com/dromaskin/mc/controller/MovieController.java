@@ -1,7 +1,9 @@
 package com.dromaskin.mc.controller;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,7 @@ import com.dromaskin.mc.service.MovieService;
 @Controller
 @RequestMapping(value="/rest/movie", produces = "application/json")
 @EnableWebMvc
+@CrossOrigin(origins = "http://localhost")
 public class MovieController {
 
 	@ModelAttribute("movie")
@@ -55,9 +59,9 @@ public class MovieController {
 			response.setData(errors);
 			response.setStatus(false);
 		} else {
-			movieService.save(movie);
-			movieService.bindGenres(request.getParameterValues("genres_id"), movie);
-			response.setStatus(true);
+//			movieService.save(movie);
+//			movieService.bindGenres(request.getParameterValues("genres_id"), movie);
+//			response.setStatus(true);
 			response.setData(movie);
 		}
 		return response;

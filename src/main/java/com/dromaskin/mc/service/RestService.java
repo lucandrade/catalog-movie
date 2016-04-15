@@ -1,5 +1,6 @@
 package com.dromaskin.mc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dromaskin.mc.entity.Genre;
+import com.dromaskin.mc.tmdbentity.CrewSearch;
+import com.dromaskin.mc.tmdbentity.CrewSearchList;
 import com.dromaskin.mc.tmdbentity.Configuration;
 import com.dromaskin.mc.tmdbentity.GenreSearch;
 import com.dromaskin.mc.tmdbentity.GenreSearchList;
@@ -56,8 +59,21 @@ public class RestService {
 		return rest.getForObject(url, GenreSearchList.class).getGenres();
 	}
 	
+	public List<String> searchDirector(int movieId) {
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(restConfiguration.getUrl() + "movie/" + movieId + "/credits")
+				.queryParam("api_key", restConfiguration.getApiKey());
+		String url = uriBuilder.build().encode().toString();
+		List<CrewSearch> crewList = rest.getForObject(url, CrewSearchList.class).getCrew();
+		List<String> directors = new ArrayList<String>();
+		for (CrewSearch cast : crewList) {
+			if (cast.getJob() != null && cast.getJob().equals("Director")) {
+				directors.add(cast.getName());
+			}
+		}
+		return directors;
+	}
+	
 	public MovieSearch searchMovie(int movieId) {
-		System.out.println("outro");
 		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(restConfiguration.getUrl() + "movie/" + movieId)
 				.queryParam("api_key", restConfiguration.getApiKey());
 		String url = uriBuilder.build().encode().toString();
@@ -80,7 +96,10 @@ public class RestService {
 	}
 	
 	public void loadMovie(MovieSearch movie) {
+		movie.setReleasedDate(movie.getReleaseDate());
 		movie.setPosterUrl(searchPoster(movie));
+		movie.setTmdbId(movie.getId());
+		movie.setId(0);
 		getGenresForMovie(movie);
 	}
 	

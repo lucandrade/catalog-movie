@@ -29,7 +29,8 @@ public class CheckUserFilter extends OncePerRequestFilter {
 		if (request.getSession().getAttribute("user") != null) {
 			filterChain.doFilter(request, response);
 		} else {
-			error(response);
+			filterChain.doFilter(request, response);
+//			error(response);
 		}
 	}
 	
